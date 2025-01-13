@@ -70,10 +70,13 @@ int main() {
 		persons[i]->hit(&shoe);
 		showHand(persons[i]);
 	}
-	//プレイヤーに2枚目を配布
-	persons[PLAYER1]->hit(&shoe);
-	showHand(persons[PLAYER1]);
-
+	for (int i = 0; i < num - 1; i++)
+	{
+		//プレイヤーに2枚目を配布
+		persons[i + 1]->hit(&shoe);
+		showHand(persons[i]);
+	}
+	
 	//ディーラーに2枚目を配布
 	persons[DEALER]->hit(&shoe);
 
@@ -81,20 +84,23 @@ int main() {
 	// ----　勝負開始
 	//プレイヤーの実行
 	//バーストしているかどうか判別
-	if (persons[PLAYER1]->play(&shoe)) {
-		//バーストせずstandした
+	for (int i = 0; i < num - 1; i++)
+	{
+		if (persons[i+1]->play(&shoe)) {
+			//バーストせずstandした
 
-		//ディーラーの手札を表示
-		showHand(persons[DEALER]);
+			//ディーラーの手札を表示
+			showHand(persons[DEALER]);
 
-		//ディーラーの自動実行
-		persons[DEALER]->play(&shoe);
+			//ディーラーの自動実行
+			persons[DEALER]->play(&shoe);
 
-		//結果の表示
-		showResult(persons);
-	}
-	else {
-		cout << "Burst Player Lose" << endl;
+			//結果の表示
+			showResult(persons);
+		}
+		else {
+			cout << "Burst Player Lose" << endl;
+		}
 	}
 	cout << "====================" << endl;
 	return 0;
